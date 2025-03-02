@@ -36,6 +36,8 @@ Developed a dynamic **Tile Blast** puzzle game featuring intuitive UI, engaging 
   - Semi-transparent overlay for clarity.  
   - Scaling effect highlights the currently selected button for improved accessibility.  
 
+  ![Tile Blast Game Screenshot](/images/Tile_Blast_PauseMenu.png)
+
 ---
 
 ## **Core Gameplay Features**
