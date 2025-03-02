@@ -45,6 +45,9 @@ Developed a dynamic **Tile Blast** puzzle game featuring intuitive UI, engaging 
   - **Bombs**: Explode in a 3×3 radius.  
   - **Missiles**: Clear an entire row or column.  
   - **Black Holes**: Remove all blocks on the board.  
+
+![Tile Blast Game Screenshot](/images/Tile_Blast_SpecialBlocks.png)
+
 - **Cluster Matching & Destruction**:  
   - Detects and removes connected blocks using efficient algorithms.  
   - Animates destruction effects to enhance engagement.  
