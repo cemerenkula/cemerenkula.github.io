@@ -1,0 +1,207 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostList from '../components/PostList.astro';
+import { getFeaturedProjects, getPosts } from '../lib/content';
+import { site } from '../data/site';
+import profile from '../assets/profile.jpg';
+
+const featured = await getFeaturedProjects();
+const posts = (await getPosts()).slice(0, 3);
+---
+
+<BaseLayout>
+  <section class="hero container container-wide">
+    <div class="hero-text">
+      <p class="eyebrow">{site.role} · {site.location}</p>
+      <h1>Hi, I'm Cem. I build software, games and the occasional&nbsp;AI.</h1>
+      <p class="lead">
+        I'm a computer engineering student at Marmara University and a full stack software engineer at
+        Exairon. Outside of work I make games in Unity and experiment with game AI.
+      </p>
+      <div class="actions">
+        <a class="button button-primary" href="/projects/">
+          See my work <Icon name="arrow-right" size={16} />
+        </a>
+        <a class="button" href={site.links.github}><Icon name="github" size={16} /> GitHub</a>
+        <a class="button" href={site.links.linkedin}><Icon name="linkedin" size={16} /> LinkedIn</a>
+      </div>
+    </div>
+    <div class="portrait">
+      <Image
+        src={profile}
+        alt="Cem Eren Kula"
+        widths={[320, 480, 640]}
+        sizes="(max-width: 48rem) 240px, 320px"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <section class="section container container-wide" aria-labelledby="work-heading">
+    <div class="section-head">
+      <h2 id="work-heading">Selected work</h2>
+      <a class="more-link" href="/projects/">All projects →</a>
+    </div>
+    <div class="grid">
+      {featured.map((project, i) => <ProjectCard project={project} eager={i === 0} />)}
+    </div>
+  </section>
+
+  {
+    posts.length > 0 && (
+      <section class="section container container-wide writing" aria-labelledby="writing-heading">
+        <div class="section-head">
+          <h2 id="writing-heading">Writing</h2>
+          <a class="more-link" href="/blog/">All posts →</a>
+        </div>
+        <div class="narrow"><PostList posts={posts} /></div>
+      </section>
+    )
+  }
+
+  <section class="section container container-wide" aria-labelledby="about-heading">
+    <div class="section-head">
+      <h2 id="about-heading">About</h2>
+    </div>
+    <div class="prose narrow">
+      <p>
+        I work across the stack: REST APIs and databases on the backend, web interfaces on the front,
+        plus testing and simulation work along the way. Game development started as a side interest
+        and turned into a real one; I'm building my way through Unity one project at a time.
+      </p>
+      <p>
+        Away from the keyboard I dance with the Marmara University dance society and spend as much time
+        outdoors as I can: hiking, skiing and kitesurfing.
+      </p>
+    </div>
+  </section>
+
+  <section class="section container container-wide" id="contact" aria-labelledby="contact-heading">
+    <div class="contact">
+      <h2 id="contact-heading">Let's talk</h2>
+      <p>
+        Have a project in mind, an opportunity, or just want to say hi? My inbox is open.
+      </p>
+      <a class="button button-primary" href={`mailto:${site.email}`}>
+        <Icon name="mail" size={16} />
+        {site.email}
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 3rem;
+    padding-top: 4.5rem;
+    padding-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: clamp(2.125rem, 5.5vw, 3.25rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    margin: 0.75rem 0 1.25rem;
+    max-width: 16ch;
+  }
+
+  .lead {
+    font-size: 1.1875rem;
+    color: var(--text-muted);
+    max-width: 34rem;
+    margin: 0 0 2rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+  }
+
+  .portrait {
+    position: relative;
+    width: 18rem;
+  }
+
+  .portrait::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    translate: 0.875rem 0.875rem;
+    border-radius: 24px;
+    background: var(--accent-bright);
+  }
+
+  .portrait img {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 24px;
+  }
+
+  .narrow {
+    max-width: var(--width);
+  }
+
+  .writing .section-head {
+    max-width: var(--width);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+    gap: 1.25rem;
+  }
+
+  .contact {
+    padding: 2.5rem 2rem;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    background:
+      radial-gradient(ellipse at top right, var(--accent-soft), transparent 60%),
+      var(--bg-raised);
+    text-align: center;
+  }
+
+  .contact h2 {
+    font-size: 1.75rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .contact p {
+    color: var(--text-muted);
+    margin: 0 auto 1.5rem;
+    max-width: 28rem;
+  }
+
+  @media (max-width: 48rem) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding-top: 2.5rem;
+    }
+
+    .portrait {
+      order: -1;
+      width: 11rem;
+    }
+
+    .portrait::before {
+      translate: 0.5rem 0.5rem;
+      border-radius: 18px;
+    }
+
+    .portrait img {
+      border-radius: 18px;
+    }
+  }
+</style>

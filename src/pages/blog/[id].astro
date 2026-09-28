@@ -1,0 +1,64 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import Icon from '../../components/Icon.astro';
+import { getPosts } from '../../lib/content';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { title, description, date, updated, tags } = post.data;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={title} description={description} type="article">
+  <article class="container">
+    <header class="head">
+      <a class="back" href="/blog/"><Icon name="arrow-left" size={15} /> All posts</a>
+      <p class="eyebrow">
+        <FormattedDate date={date} />
+        {updated && <> · Updated <FormattedDate date={updated} /></>}
+      </p>
+      <h1>{title}</h1>
+      {
+        tags.length > 0 && (
+          <ul class="tags">
+            {tags.map((tag) => <li class="tag">{tag}</li>)}
+          </ul>
+        )
+      }
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .head {
+    padding-top: 2.5rem;
+    padding-bottom: 2rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  h1 {
+    font-size: clamp(2rem, 5vw, 2.625rem);
+    letter-spacing: -0.03em;
+    margin: 0.5rem 0 1rem;
+  }
+</style>

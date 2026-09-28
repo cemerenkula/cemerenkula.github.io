@@ -1,13 +1,19 @@
-# Ignore the contents of the _site directory and other cache directories
-_site/
-.sass-cache/
+# build output
+dist/
+.astro/
 
-# Ignore the directory for local files during development
-local/
+# dependencies
+node_modules/
 
-# Ignore the Gemfile that is generated
-Gemfile.lock
+# logs
+npm-debug.log*
 
-# Ingore files created by npm
-node_modules
-package-lock.json
+# environment variables
+.env
+.env.*
+
+# macOS
+.DS_Store
+
+# local editor/agent config
+.claude/
