@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
-import { experience, education, skills, interests, cvPdf, type CvEntry } from '../data/cv';
+import { experience, education, projects, skills, interests, cvPdf, type CvEntry } from '../data/cv';
 
 const sections: { title: string; entries: CvEntry[] }[] = [
   { title: 'Experience', entries: experience },
   { title: 'Education', entries: education },
+  { title: 'Projects', entries: projects },
 ];
 ---
 
@@ -26,7 +27,7 @@ const sections: { title: string; entries: CvEntry[] }[] = [
           {section.entries.map((entry) => (
             <div class="entry">
               <div class="entry-head">
-                <h3>{entry.title}</h3>
+                <h3>{entry.href ? <a href={entry.href}>{entry.title}</a> : entry.title}</h3>
                 {entry.period && <span class="period">{entry.period}</span>}
               </div>
               <p class="org">
@@ -86,6 +87,13 @@ const sections: { title: string; entries: CvEntry[] }[] = [
   h3 {
     font-size: 1rem;
     margin: 0;
+  }
+
+  h3 a {
+    color: var(--text);
+    text-decoration: underline;
+    text-decoration-color: var(--border);
+    text-underline-offset: 0.2em;
   }
 
   .period {
