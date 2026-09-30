@@ -44,7 +44,7 @@ export const education: CvEntry[] = [
     // TODO: confirm graduation year
     period: '2020 – 2026',
     location: 'Istanbul',
-    points: ['Student clubs: Tango and Swing Club, Dansmar, Macsec'],
+    points: ['GPA: 3.48 / 4.00', 'Student clubs: Tango and Swing Club, Dansmar, Macsec'],
   },
   {
     title: 'Erasmus Exchange, Bioinformatics',
