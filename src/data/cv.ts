@@ -26,7 +26,7 @@ export const education: CvEntry[] = [
     title: 'B.Sc. Computer Engineering',
     org: 'Marmara University',
     location: 'Istanbul',
-    // TODO: add years, e.g. '2021 – 2026'
+    // TODO: add years, e.g. '2021 – 2025'
   },
 ];
 
@@ -37,7 +37,16 @@ export const skills: { group: string; items: string[] }[] = [
   { group: 'Tools', items: ['Git', 'Docker', 'Swagger / OpenAPI'] },
 ];
 
-export const interests = ['Dancing (Marmara University Dance Society)', 'Hiking', 'Skiing', 'Kitesurfing'];
+export const interests = [
+  'Hardware',
+  'Networking',
+  'Cyber security',
+  'Game development',
+  'Dancing',
+  'Hiking',
+  'Skiing',
+  'Kitesurfing',
+];
 
 // Put a PDF at public/cv.pdf and set this to '/cv.pdf' to show a download button.
 export const cvPdf: string | null = null;
