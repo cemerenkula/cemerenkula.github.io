@@ -8,9 +8,9 @@ const posts = await getPosts();
 ---
 
 <BaseLayout title="Blog" description="Notes on software, games and things I'm learning.">
-  <header class="band">
-    <div class="container page-head">
-      <p class="eyebrow">Blog</p>
+  <header class="container page-head">
+    <div>
+      <p class="prompt">cat ~/blog/*.md</p>
       <h1>Writing</h1>
       <p>Notes on software, games and things I'm learning along the way.</p>
       <a class="rss" href="/rss.xml"><Icon name="rss" size={15} /> RSS feed</a>
@@ -18,8 +18,8 @@ const posts = await getPosts();
   </header>
 
   <div class="container">
-    <div class="list panel">
-      {posts.length > 0 ? <PostList posts={posts} /> : <p class="empty">No posts yet. Check back soon.</p>}
+    <div class="list">
+      {posts.length > 0 ? <PostList posts={posts} /> : <p class="empty">No posts yet. Check back soon_</p>}
     </div>
   </div>
 </BaseLayout>
@@ -32,17 +32,21 @@ const posts = await getPosts();
     margin-top: 1rem;
     font-family: var(--font-mono);
     font-size: 0.8125rem;
-    color: var(--band-muted);
+    color: var(--text-muted);
     text-decoration: none;
   }
 
   .list {
-    margin-top: 2rem;
+    margin-top: 0;
   }
 
   .empty {
     margin: 0;
-    padding: 1.5rem 1rem;
+    padding: 2rem 1rem;
+    border: 1px dashed var(--border-strong);
+    border-radius: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
     color: var(--text-muted);
     text-align: center;
   }

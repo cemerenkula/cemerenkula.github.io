@@ -8,9 +8,9 @@ const categories = ['All', ...new Set(projects.map((p) => p.data.category))];
 ---
 
 <BaseLayout title="Projects" description="Software, games and AI projects by Cem Eren Kula.">
-  <header class="band">
-    <div class="container container-wide page-head">
-      <p class="eyebrow">Projects</p>
+  <header class="container container-wide page-head">
+    <div>
+      <p class="prompt">ls ~/projects</p>
       <h1>Things I've built</h1>
       <p>Backend services, Unity games and game AI experiments, from coursework to side projects.</p>
     </div>
@@ -22,7 +22,7 @@ const categories = ['All', ...new Set(projects.map((p) => p.data.category))];
       {
         categories.map((c, i) => (
           <button type="button" data-filter={c} aria-pressed={i === 0 ? 'true' : 'false'}>
-            {c}
+            {c === 'All' ? '*' : c.toLowerCase()}
           </button>
         ))
       }
@@ -60,16 +60,17 @@ const categories = ['All', ...new Set(projects.map((p) => p.data.category))];
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin: 2rem 0;
+    margin: 0 0 2rem;
   }
 
   .filters button {
     padding: 0.375rem 0.875rem;
     border: 1px solid var(--border);
-    border-radius: 999px;
+    border-radius: 6px;
     background: var(--bg-raised);
     color: var(--text-muted);
     font: inherit;
+    font-family: var(--font-mono);
     font-size: 0.875rem;
     cursor: pointer;
     transition: color 0.15s, border-color 0.15s, background 0.15s;
@@ -81,9 +82,9 @@ const categories = ['All', ...new Set(projects.map((p) => p.data.category))];
   }
 
   .filters button[aria-pressed='true'] {
-    background: var(--accent);
+    background: var(--accent-soft);
     border-color: var(--accent);
-    color: var(--bg-raised);
+    color: var(--accent);
   }
 
   .grid {

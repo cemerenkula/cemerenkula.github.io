@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
+import Window from '../../components/Window.astro';
 import { getProjects } from '../../lib/content';
 
 export async function getStaticPaths() {
@@ -17,10 +18,10 @@ const { Content } = await render(project);
 
 <BaseLayout title={title} description={summary} image={cover} type="article">
   <article>
-    <header class="band head">
+    <header class="head">
       <div class="container">
-      <a class="back" href="/projects/"><Icon name="arrow-left" size={15} /> All projects</a>
-      <p class="eyebrow">{category}</p>
+      <a class="back" href="/projects/"><Icon name="arrow-left" size={15} /> cd ..</a>
+      <p class="eyebrow">~/projects/{project.id} · {category.toLowerCase()}</p>
       <h1>{title}</h1>
       <p class="summary">{summary}</p>
       <ul class="tags">
@@ -31,17 +32,17 @@ const { Content } = await render(project);
           <div class="links">
             {links.github && (
               <a class="button" href={links.github}>
-                <Icon name="github" size={16} /> Source
+                <Icon name="github" size={16} /> source
               </a>
             )}
             {links.demo && (
               <a class="button button-primary" href={links.demo}>
-                <Icon name="arrow-up-right" size={16} /> Live demo
+                <Icon name="arrow-up-right" size={16} /> live demo
               </a>
             )}
             {links.video && (
               <a class="button" href={links.video}>
-                <Icon name="play" size={16} /> Video
+                <Icon name="play" size={16} /> video
               </a>
             )}
           </div>
@@ -51,6 +52,7 @@ const { Content } = await render(project);
     </header>
 
     <div class="container container-wide cover-wrap">
+      <Window title={`${project.id}.png`} flush>
       <Image
         class="cover"
         src={cover}
@@ -59,40 +61,28 @@ const { Content } = await render(project);
         sizes="(max-width: 68rem) 100vw, 1088px"
         loading="eager"
       />
+      </Window>
     </div>
 
-    <div class="container">
-      <div class="panel prose">
-        <Content />
-      </div>
+    <div class="container prose">
+      <Content />
     </div>
   </article>
 </BaseLayout>
 
 <style>
   .head {
-    padding-block: 2.5rem 7rem;
-  }
-
-  .back {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    margin-bottom: 2rem;
-    font-size: 0.875rem;
-    color: var(--band-muted);
-    text-decoration: none;
+    padding-block: 2.5rem 2.5rem;
   }
 
   h1 {
     font-size: clamp(2rem, 5vw, 2.75rem);
-    letter-spacing: -0.03em;
-    margin: 0.375rem 0 0.75rem;
+    margin: 0.5rem 0 0.75rem;
   }
 
   .summary {
-    font-size: 1.1875rem;
-    color: var(--band-muted);
+    font-size: 1.125rem;
+    color: var(--text-muted);
     margin: 0 0 1.25rem;
   }
 
@@ -103,19 +93,14 @@ const { Content } = await render(project);
     margin-top: 1.5rem;
   }
 
+  .cover-wrap {
+    margin-bottom: 3rem;
+  }
+
   .cover {
     width: 100%;
     max-height: 34rem;
     object-fit: contain;
-    background: var(--bg-raised);
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow);
-    margin-bottom: 2rem;
-  }
-
-  .cover-wrap {
-    margin-top: -5rem;
-    position: relative;
+    background: var(--bg-sunken);
   }
 </style>

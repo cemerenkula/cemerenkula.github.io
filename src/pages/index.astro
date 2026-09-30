@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostList from '../components/PostList.astro';
+import Window from '../components/Window.astro';
 import { getFeaturedProjects, getPosts } from '../lib/content';
 import { site } from '../data/site';
 import profile from '../assets/profile.jpg';
@@ -11,82 +12,72 @@ import profile from '../assets/profile.jpg';
 const featured = await getFeaturedProjects();
 const posts = (await getPosts()).slice(0, 3);
 
-const focus = [
-  { title: 'Software', text: 'REST APIs, databases and full stack web apps, mostly with .NET and PostgreSQL.' },
-  { title: 'Games', text: 'Unity games with responsive UI, gameplay systems and 2D physics.' },
-  { title: 'AI & Data', text: 'Game-playing agents, search algorithms and heuristics, and benchmarking them.' },
+// Shown as a syntax-highlighted JSON object in the About section.
+const about: [string, string | string[]][] = [
+  ['role', site.role],
+  ['company', 'Exairon'],
+  ['education', 'Computer Engineering @ Marmara University'],
+  ['location', site.location],
+  ['stack', ['C#', '.NET', 'PostgreSQL', 'Unity', 'Python']],
+  ['offline', ['dance', 'hiking', 'skiing', 'kitesurfing']],
 ];
 ---
 
 <BaseLayout>
-  <section class="band hero-band">
-    <div class="hero container container-wide">
-      <div class="hero-text">
-        <p class="pill">{site.role} · {site.location}</p>
-        <h1>Hi, I'm Cem. I build software, games and the occasional&nbsp;AI.</h1>
-        <p class="lead">
-          I'm a computer engineering student at Marmara University and a full stack software engineer at
-          Exairon. Outside of work I make games in Unity and experiment with game AI.
-        </p>
-        <div class="actions">
-          <a class="button button-primary" href="/projects/">
-            See my work <Icon name="arrow-right" size={16} />
-          </a>
-          <a class="button" href={site.links.github}><Icon name="github" size={16} /> GitHub</a>
-          <a class="button" href={site.links.linkedin}><Icon name="linkedin" size={16} /> LinkedIn</a>
-        </div>
+  <section class="hero container container-wide">
+    <div class="hero-text">
+      <p class="prompt">whoami</p>
+      <h1>
+        Cem Eren Kula<span class="cursor" aria-hidden="true"></span>
+      </h1>
+      <p class="role">
+        <span>full stack engineer</span>
+        <span class="sep">·</span>
+        <span>game developer</span>
+        <span class="sep">·</span>
+        <span>ai tinkerer</span>
+      </p>
+      <p class="lead">
+        I build web services by day and Unity games by night. Currently a full stack software engineer at
+        Exairon and a computer engineering student at Marmara University, Istanbul.
+      </p>
+      <div class="actions">
+        <a class="button button-primary" href="/projects/">
+          ls ./projects <Icon name="arrow-right" size={16} />
+        </a>
+        <a class="button" href={site.links.github}><Icon name="github" size={16} /> github</a>
+        <a class="button" href={site.links.linkedin}><Icon name="linkedin" size={16} /> linkedin</a>
       </div>
-      <div class="portrait">
-        <Image
-          src={profile}
-          alt="Cem Eren Kula"
-          widths={[320, 480, 640]}
-          sizes="(max-width: 48rem) 240px, 320px"
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
-      <ul class="focus" aria-label="What I work on">
-        {
-          focus.map((f) => (
-            <li>
-              <h2>{f.title}</h2>
-              <p>{f.text}</p>
-            </li>
-          ))
-        }
-      </ul>
     </div>
+
+    <Window title="cem.jpg" class="portrait" flush>
+      <Image
+        src={profile}
+        alt="Cem Eren Kula"
+        widths={[320, 480, 640]}
+        sizes="(max-width: 48rem) 200px, 300px"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </Window>
   </section>
 
   <section class="section container container-wide" aria-labelledby="work-heading">
     <div class="section-head">
-      <h2 id="work-heading">Selected work</h2>
-      <a class="more-link" href="/projects/">All projects →</a>
+      <h2 id="work-heading">selected work</h2>
+      <a class="more-link" href="/projects/">all projects →</a>
     </div>
     <div class="grid">
       {featured.map((project, i) => <ProjectCard project={project} eager={i === 0} />)}
     </div>
   </section>
 
-  <div class="container container-wide stack">
-    {
-      posts.length > 0 && (
-        <section class="panel" aria-labelledby="writing-heading">
-          <div class="section-head">
-            <h2 id="writing-heading">Writing</h2>
-            <a class="more-link" href="/blog/">All posts →</a>
-          </div>
-          <PostList posts={posts} />
-        </section>
-      )
-    }
-
-    <section class="panel" aria-labelledby="about-heading">
+  <div class="container container-wide split">
+    <section aria-labelledby="about-heading">
       <div class="section-head">
-        <h2 id="about-heading">About</h2>
+        <h2 id="about-heading">about</h2>
       </div>
-      <div class="prose narrow">
+      <div class="prose">
         <p>
           I work across the stack: REST APIs and databases on the backend, web interfaces on the front,
           plus testing and simulation work along the way. Game development started as a side interest
@@ -94,59 +85,98 @@ const focus = [
         </p>
         <p>
           Away from the keyboard I dance with the Marmara University dance society and spend as much time
-          outdoors as I can: hiking, skiing and kitesurfing.
+          outdoors as I can.
         </p>
       </div>
     </section>
 
-    <section class="contact band" id="contact" aria-labelledby="contact-heading">
-      <h2 id="contact-heading">Let's talk</h2>
-      <p>Have a project in mind, an opportunity, or just want to say hi? My inbox is open.</p>
+    <Window title="about.json" class="json-window">
+      <pre class="json"><code><span class="p">{'{'}</span>
+{about.map(([key, value], i) => (
+  <>  <span class="k">"{key}"</span><span class="p">: </span>{Array.isArray(value) ? (
+    <><span class="p">[</span>{value.map((v, j) => (<><span class="s">"{v}"</span>{j < value.length - 1 && <span class="p">, </span>}</>))}<span class="p">]</span></>
+  ) : (<span class="s">"{value}"</span>)}{i < about.length - 1 && <span class="p">,</span>}
+</>
+))}<span class="p">{'}'}</span></code></pre>
+    </Window>
+  </div>
+
+  {
+    posts.length > 0 && (
+      <section class="section container container-wide" aria-labelledby="writing-heading">
+        <div class="section-head">
+          <h2 id="writing-heading">writing</h2>
+          <a class="more-link" href="/blog/">all posts →</a>
+        </div>
+        <PostList posts={posts} />
+      </section>
+    )
+  }
+
+  <section class="section container container-wide" id="contact" aria-labelledby="contact-heading">
+    <div class="contact">
+      <p class="prompt">echo "hello" | mail {site.email}</p>
+      <h2 id="contact-heading">Let's build something.</h2>
+      <p class="contact-text">
+        Have a project in mind, an opportunity, or just want to say hi? My inbox is open.
+      </p>
       <a class="button button-primary" href={`mailto:${site.email}`}>
         <Icon name="mail" size={16} />
         {site.email}
       </a>
-    </section>
-  </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .hero-band {
-    padding-block: 4rem 3rem;
-  }
-
   .hero {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    column-gap: 3.5rem;
-    row-gap: 2.5rem;
-  }
-
-  .pill {
-    display: inline-block;
-    margin: 0;
-    padding: 0.375rem 0.875rem;
-    border: 1px solid var(--glass-border);
-    border-radius: 999px;
-    background: var(--glass);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    gap: 3.5rem;
+    padding-top: 5rem;
+    padding-bottom: 2.5rem;
   }
 
   h1 {
-    font-size: clamp(2.125rem, 5.5vw, 3.25rem);
-    line-height: 1.08;
-    letter-spacing: -0.035em;
-    margin: 1.25rem 0 1.25rem;
-    max-width: 16ch;
+    font-size: clamp(2.25rem, 6.5vw, 4rem);
+    line-height: 1.05;
+    margin: 0.75rem 0 1rem;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 0.9em;
+    margin-left: 0.1em;
+    vertical-align: -0.05em;
+    background: var(--accent);
+    animation: blink 1.1s steps(1) infinite;
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .role {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.625rem;
+    margin: 0 0 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    color: var(--accent);
+  }
+
+  .sep {
+    color: var(--text-faint);
   }
 
   .lead {
-    font-size: 1.1875rem;
-    color: var(--band-muted);
+    font-size: 1.125rem;
+    color: var(--text-muted);
     max-width: 34rem;
     margin: 0 0 2rem;
   }
@@ -157,52 +187,16 @@ const focus = [
     gap: 0.625rem;
   }
 
-  .portrait {
-    width: 18rem;
-    padding: 0.5rem;
-    border: 1px solid var(--glass-border);
-    border-radius: 28px;
-    background: var(--glass);
-    box-shadow: 0 24px 48px -16px rgb(0 0 0 / 0.45);
+  .hero :global(.portrait) {
+    width: 18.75rem;
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.5);
   }
 
-  .portrait img {
+  .hero :global(.portrait img) {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1;
     object-fit: cover;
-    object-position: 50% 30%;
-    border-radius: 20px;
-  }
-
-  .focus {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  .focus li {
-    padding: 1.125rem 1.25rem;
-    border: 1px solid rgb(255 255 255 / 0.18);
-    border-radius: var(--radius);
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .focus h2 {
-    font-size: 1rem;
-    margin: 0 0 0.375rem;
-  }
-
-  .focus p {
-    margin: 0;
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    color: var(--band-muted);
+    object-position: 50% 35%;
   }
 
   .grid {
@@ -211,53 +205,86 @@ const focus = [
     gap: 1.25rem;
   }
 
-  .stack {
+  .split {
     display: grid;
-    gap: 1.25rem;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    padding-block: 3.5rem;
   }
 
-  .narrow {
-    max-width: var(--width);
+  .split :global(.json-window) {
+    margin-top: 2.75rem;
+  }
+
+  .json {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.75;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .json .k {
+    color: var(--accent);
+  }
+
+  .json .s {
+    color: var(--prompt);
+  }
+
+  .json .p {
+    color: var(--text-faint);
   }
 
   .contact {
     padding: 3rem 2rem;
-    border-radius: 20px;
+    border: 1px dashed var(--border-strong);
+    border-radius: 12px;
+    background: var(--bg-raised);
     text-align: center;
   }
 
-  .contact h2 {
-    font-size: 1.75rem;
-    margin: 0 0 0.5rem;
+  .contact .prompt {
+    font-size: 0.8125rem;
+    overflow-wrap: anywhere;
   }
 
-  .contact p {
-    color: var(--band-muted);
-    margin: 0 auto 1.5rem;
+  .contact h2 {
+    font-family: var(--font-mono);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    letter-spacing: -0.03em;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .contact-text {
+    color: var(--text-muted);
+    margin: 0 auto 1.75rem;
     max-width: 28rem;
+  }
+
+  @media (max-width: 52rem) {
+    .split {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .split :global(.json-window) {
+      margin-top: 0;
+    }
   }
 
   @media (max-width: 48rem) {
     .hero {
       grid-template-columns: 1fr;
+      gap: 2.5rem;
+      padding-top: 3rem;
     }
 
-    .hero-band {
-      padding-top: 2.5rem;
-    }
-
-    .portrait {
+    .hero :global(.portrait) {
       order: -1;
-      width: 11rem;
-      border-radius: 22px;
-    }
-
-    .portrait img {
-      border-radius: 16px;
-    }
-
-    .focus {
-      grid-template-columns: 1fr;
+      width: 12.5rem;
     }
   }
 </style>

@@ -7,7 +7,7 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="container container-wide inner">
-    <p>© {year} {site.name}</p>
+    <p><span class="accent">©</span> {year} {site.name} · built with Astro</p>
     <ul aria-label="Elsewhere">
       <li><a href={site.links.github} aria-label="GitHub"><Icon name="github" /></a></li>
       <li><a href={site.links.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a></li>
@@ -21,6 +21,7 @@ const year = new Date().getFullYear();
   .footer {
     margin-top: 5rem;
     border-top: 1px solid var(--border);
+    background: var(--bg);
   }
 
   .inner {
@@ -28,7 +29,7 @@ const year = new Date().getFullYear();
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
-    padding-block: 1.75rem;
+    padding-block: 1.5rem;
   }
 
   p {
@@ -36,6 +37,10 @@ const year = new Date().getFullYear();
     font-family: var(--font-mono);
     font-size: 0.8125rem;
     color: var(--text-faint);
+  }
+
+  .accent {
+    color: var(--accent);
   }
 
   ul {
@@ -51,11 +56,7 @@ const year = new Date().getFullYear();
     place-items: center;
     width: 2.25rem;
     height: 2.25rem;
-    border-radius: 8px;
+    border-radius: 6px;
     color: var(--text-muted);
-  }
-
-  a:hover {
-    background: var(--code-bg);
   }
 </style>

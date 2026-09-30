@@ -9,7 +9,7 @@ interface Props {
 }
 
 const { project, eager = false } = Astro.props;
-const { title, summary, category, tags, cover, coverAlt } = project.data;
+const { title, summary, tags, cover, coverAlt } = project.data;
 ---
 
 <article class="card">
@@ -23,7 +23,7 @@ const { title, summary, category, tags, cover, coverAlt } = project.data;
     />
   </div>
   <div class="body">
-    <p class="eyebrow">{category}</p>
+    <p class="eyebrow">~/projects/{project.id}</p>
     <h3>
       <a href={`/projects/${project.id}/`}>
         {title}
@@ -43,21 +43,20 @@ const { title, summary, category, tags, cover, coverAlt } = project.data;
     display: flex;
     flex-direction: column;
     border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border-radius: 10px;
     background: var(--bg-raised);
     overflow: hidden;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
   }
 
   .card:hover {
-    border-color: color-mix(in srgb, var(--accent) 50%, var(--border));
-    box-shadow: var(--shadow);
-    transform: translateY(-2px);
+    border-color: var(--accent);
+    box-shadow: var(--glow);
   }
 
   .media {
     aspect-ratio: 16 / 10;
-    background: var(--code-bg);
+    background: var(--bg-sunken);
     border-bottom: 1px solid var(--border);
     overflow: hidden;
   }
@@ -78,7 +77,11 @@ const { title, summary, category, tags, cover, coverAlt } = project.data;
     flex-direction: column;
     gap: 0.5rem;
     flex: 1;
-    padding: 1.125rem 1.25rem 1.25rem;
+    padding: 1rem 1.125rem 1.125rem;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
   }
 
   h3 {
