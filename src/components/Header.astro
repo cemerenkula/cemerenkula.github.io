@@ -1,15 +1,20 @@
 ---
 import Icon from './Icon.astro';
 import { nav, site } from '../data/site';
+import { publications } from '../data/publications';
 
 const path = Astro.url.pathname;
+const items =
+  publications.length > 0
+    ? [...nav.slice(0, 1), { href: '/publications/', label: 'Publications' }, ...nav.slice(1)]
+    : nav;
 ---
 
 <header class="container header">
   <a href="/" class="name">{site.name}</a>
   <nav aria-label="Main">
     {
-      nav.map((item) => (
+      items.map((item) => (
         <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>
           {item.label}
         </a>

@@ -3,6 +3,8 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectList from '../components/ProjectList.astro';
 import PostList from '../components/PostList.astro';
+import PublicationList from '../components/PublicationList.astro';
+import { publications } from '../data/publications';
 import { getFeaturedProjects, getPosts } from '../lib/content';
 import { site } from '../data/site';
 import profile from '../assets/profile.jpg';
@@ -26,7 +28,7 @@ const posts = (await getPosts()).slice(0, 3);
       <p class="muted">{site.role} · {site.location}</p>
       <p>
         I'm a full stack software engineer at Exairon and a computer engineering graduate of Marmara
-        University. Day to day I build full stack web applications with React and Next.js, but I enjoy every part
+        University. Day to day I build full stack web applications with React and Node.js, but I enjoy every part
         of computing: hardware, networking, cyber security and game development.
       </p>
       <p>
@@ -38,6 +40,15 @@ const posts = (await getPosts()).slice(0, 3);
         <a href={`mailto:${site.email}`}>{site.email}</a>
       </p>
     </section>
+
+    {
+      publications.length > 0 && (
+        <section class="section">
+          <h2 class="section-title">Publications</h2>
+          <PublicationList publications={publications} />
+        </section>
+      )
+    }
 
     <section class="section">
       <h2 class="section-title">Projects</h2>

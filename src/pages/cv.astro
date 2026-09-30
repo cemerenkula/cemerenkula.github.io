@@ -1,11 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../data/site';
+import { publications } from '../data/publications';
+import PublicationList from '../components/PublicationList.astro';
 import { experience, education, projects, skills, interests, cvPdf, type CvEntry } from '../data/cv';
 
-const sections: { title: string; entries: CvEntry[] }[] = [
+// A section with `entries: null` renders the publication list instead.
+const sections: { title: string; entries: CvEntry[] | null }[] = [
   { title: 'Experience', entries: experience },
   { title: 'Education', entries: education },
+  ...(publications.length > 0 ? [{ title: 'Publications', entries: null }] : []),
   { title: 'Projects', entries: projects },
 ];
 ---
@@ -24,7 +28,8 @@ const sections: { title: string; entries: CvEntry[] }[] = [
       sections.map((section) => (
         <section class="block">
           <h2 class="section-title">{section.title}</h2>
-          {section.entries.map((entry) => (
+          {section.entries === null && <PublicationList publications={publications} />}
+          {section.entries?.map((entry) => (
             <div class="entry">
               <div class="entry-head">
                 <h3>{entry.href ? <a href={entry.href}>{entry.title}</a> : entry.title}</h3>

@@ -41,8 +41,7 @@ export const education: CvEntry[] = [
   {
     title: 'B.Sc. Computer Engineering',
     org: 'Marmara University',
-    // TODO: confirm graduation year
-    period: '2020 – 2026',
+    period: 'Sep 2020 – Jul 2026',
     location: 'Istanbul',
     points: ['GPA: 3.48 / 4.00', 'Student clubs: Tango and Swing Club, Dansmar, Macsec'],
   },
@@ -88,8 +87,8 @@ export const skills: { group: string; items: string[] }[] = [
     group: 'Languages',
     items: ['JavaScript', 'C#', 'C', 'Java', 'Python', 'SQL', 'Assembly (MIPS, ARM)'],
   },
-  { group: 'Frameworks', items: ['React', 'Next.js', '.NET', 'Entity Framework Core', 'Unity'] },
-  { group: 'Data & APIs', items: ['PostgreSQL', 'REST APIs', 'Swagger / OpenAPI', 'Postman'] },
+  { group: 'Frameworks', items: ['React', 'Next.js', 'Node.js', 'Express', '.NET', 'Entity Framework Core', 'Unity'] },
+  { group: 'Data & APIs', items: ['PostgreSQL', 'MongoDB', 'REST APIs', 'Swagger / OpenAPI', 'Postman'] },
   { group: 'Testing', items: ['Selenium', 'Jira'] },
   { group: 'Tools', items: ['Git', 'Docker'] },
 ];
