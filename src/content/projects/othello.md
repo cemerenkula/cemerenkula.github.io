@@ -1,8 +1,8 @@
 ---
-title: Othello AI
-summary: Othello with a minimax AI opponent, three heuristic strategies and a benchmarking module to compare them.
-category: AI & Data
-tags: [Python, Minimax, Game AI]
+title: Othello
+summary: The classic board game in Python, with a minimax opponent, three heuristic strategies and a benchmarking module.
+category: Algorithms
+tags: [Python, Minimax, Heuristics]
 cover: ../../assets/projects/othello/board.png
 coverAlt: Othello board in the middle of a game
 date: 2025-01-10

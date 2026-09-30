@@ -2,7 +2,7 @@ export const site = {
   name: 'Cem Eren Kula',
   title: 'Cem Eren Kula — Software Engineer',
   description:
-    'Full stack software engineer and computer engineering student. I build web services, games and AI experiments.',
+    'Full stack software engineer and computer engineering student. I build web services and games.',
   role: 'Full Stack Software Engineer',
   location: 'Istanbul, Türkiye',
   email: 'cemerenkula@gmail.com',

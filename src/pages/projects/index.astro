@@ -7,12 +7,12 @@ const projects = await getProjects();
 const categories = ['All', ...new Set(projects.map((p) => p.data.category))];
 ---
 
-<BaseLayout title="Projects" description="Software, games and AI projects by Cem Eren Kula.">
+<BaseLayout title="Projects" description="Software and game projects by Cem Eren Kula.">
   <header class="container container-wide page-head">
     <div>
       <p class="prompt">ls ~/projects</p>
       <h1>Things I've built</h1>
-      <p>Backend services, Unity games and game AI experiments, from coursework to side projects.</p>
+      <p>Backend services, Unity games and algorithm projects, from coursework to side projects.</p>
     </div>
   </header>
 
