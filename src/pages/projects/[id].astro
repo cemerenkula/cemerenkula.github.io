@@ -2,8 +2,6 @@
 import { Image } from 'astro:assets';
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import Icon from '../../components/Icon.astro';
-import Window from '../../components/Window.astro';
 import { getProjects } from '../../lib/content';
 
 export async function getStaticPaths() {
@@ -12,95 +10,49 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const { title, summary, category, tags, cover, coverAlt, links } = project.data;
+const { title, summary, tags, cover, coverAlt, links } = project.data;
 const { Content } = await render(project);
 ---
 
 <BaseLayout title={title} description={summary} image={cover} type="article">
-  <article>
-    <header class="head">
-      <div class="container">
-      <a class="back" href="/projects/"><Icon name="arrow-left" size={15} /> cd ..</a>
-      <p class="eyebrow">~/projects/{project.id} · {category.toLowerCase()}</p>
+  <article class="container">
+    <header class="page-head">
+      <a class="back" href="/projects/">← Projects</a>
       <h1>{title}</h1>
-      <p class="summary">{summary}</p>
-      <ul class="tags">
-        {tags.map((tag) => <li class="tag">{tag}</li>)}
-      </ul>
-      {
-        (links.github || links.demo || links.video) && (
-          <div class="links">
-            {links.github && (
-              <a class="button" href={links.github}>
-                <Icon name="github" size={16} /> source
-              </a>
-            )}
-            {links.demo && (
-              <a class="button button-primary" href={links.demo}>
-                <Icon name="arrow-up-right" size={16} /> live demo
-              </a>
-            )}
-            {links.video && (
-              <a class="button" href={links.video}>
-                <Icon name="play" size={16} /> video
-              </a>
-            )}
-          </div>
-        )
-      }
-      </div>
+      <p>{summary}</p>
+      <p class="meta">
+        {tags.join(' · ')}
+        {links.github && <> · <a href={links.github}>Source</a></>}
+        {links.demo && <> · <a href={links.demo}>Live demo</a></>}
+        {links.video && <> · <a href={links.video}>Video</a></>}
+      </p>
     </header>
 
-    <div class="container container-wide cover-wrap">
-      <Window title={`${project.id}.png`} flush>
-      <Image
-        class="cover"
-        src={cover}
-        alt={coverAlt}
-        widths={[640, 1024, 1600]}
-        sizes="(max-width: 68rem) 100vw, 1088px"
-        loading="eager"
-      />
-      </Window>
-    </div>
+    <Image
+      class="cover"
+      src={cover}
+      alt={coverAlt}
+      widths={[640, 1024, 1344]}
+      sizes="(max-width: 42rem) 100vw, 672px"
+      loading="eager"
+    />
 
-    <div class="container prose">
+    <div class="prose">
       <Content />
     </div>
   </article>
 </BaseLayout>
 
 <style>
-  .head {
-    padding-block: 2.5rem 2.5rem;
-  }
-
-  h1 {
-    font-size: clamp(2rem, 5vw, 2.75rem);
-    margin: 0.5rem 0 0.75rem;
-  }
-
-  .summary {
-    font-size: 1.125rem;
-    color: var(--text-muted);
-    margin: 0 0 1.25rem;
-  }
-
-  .links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.625rem;
-    margin-top: 1.5rem;
-  }
-
-  .cover-wrap {
-    margin-bottom: 3rem;
+  .meta {
+    margin-top: 0.75rem !important;
+    font-size: 0.875rem;
   }
 
   .cover {
     width: 100%;
-    max-height: 34rem;
-    object-fit: contain;
-    background: var(--bg-sunken);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 2.5rem;
   }
 </style>

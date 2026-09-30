@@ -1,288 +1,97 @@
 ---
 import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Icon from '../components/Icon.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import ProjectList from '../components/ProjectList.astro';
 import PostList from '../components/PostList.astro';
-import Window from '../components/Window.astro';
 import { getFeaturedProjects, getPosts } from '../lib/content';
 import { site } from '../data/site';
 import profile from '../assets/profile.jpg';
 
 const featured = await getFeaturedProjects();
 const posts = (await getPosts()).slice(0, 3);
-
-// Shown as a syntax-highlighted JSON object in the About section.
-const about: [string, string | string[]][] = [
-  ['role', site.role],
-  ['company', 'Exairon'],
-  ['education', 'Computer Engineering @ Marmara University'],
-  ['location', site.location],
-  ['stack', ['C#', '.NET', 'PostgreSQL', 'Unity', 'Python']],
-  ['offline', ['dance', 'hiking', 'skiing', 'kitesurfing']],
-];
 ---
 
 <BaseLayout>
-  <section class="hero container container-wide">
-    <div class="hero-text">
-      <p class="prompt">whoami</p>
-      <h1>
-        Cem Eren Kula<span class="cursor" aria-hidden="true"></span>
-      </h1>
-      <p class="role">
-        <span>full stack engineer</span>
-        <span class="sep">·</span>
-        <span>game developer</span>
-      </p>
-      <p class="lead">
-        I build web services by day and Unity games by night. Currently a full stack software engineer at
-        Exairon and a computer engineering student at Marmara University, Istanbul.
-      </p>
-      <div class="actions">
-        <a class="button button-primary" href="/projects/">
-          ls ./projects <Icon name="arrow-right" size={16} />
-        </a>
-        <a class="button" href={site.links.github}><Icon name="github" size={16} /> github</a>
-        <a class="button" href={site.links.linkedin}><Icon name="linkedin" size={16} /> linkedin</a>
-      </div>
-    </div>
-
-    <Window title="cem.jpg" class="portrait" flush>
+  <div class="container">
+    <section class="intro">
       <Image
+        class="photo"
         src={profile}
         alt="Cem Eren Kula"
-        widths={[320, 480, 640]}
-        sizes="(max-width: 48rem) 200px, 300px"
+        widths={[96, 192]}
+        sizes="96px"
         loading="eager"
-        fetchpriority="high"
       />
-    </Window>
-  </section>
-
-  <section class="section container container-wide" aria-labelledby="work-heading">
-    <div class="section-head">
-      <h2 id="work-heading">selected work</h2>
-      <a class="more-link" href="/projects/">all projects →</a>
-    </div>
-    <div class="grid">
-      {featured.map((project, i) => <ProjectCard project={project} eager={i === 0} />)}
-    </div>
-  </section>
-
-  <div class="container container-wide split">
-    <section aria-labelledby="about-heading">
-      <div class="section-head">
-        <h2 id="about-heading">about</h2>
-      </div>
-      <div class="prose">
-        <p>
-          I work across the stack: REST APIs and databases on the backend, web interfaces on the front,
-          plus testing and simulation work along the way. Game development started as a side interest
-          and turned into a real one; I'm building my way through Unity one project at a time.
-        </p>
-        <p>
-          Away from the keyboard I dance with the Marmara University dance society and spend as much time
-          outdoors as I can.
-        </p>
-      </div>
+      <h1>{site.name}</h1>
+      <p class="muted">{site.role} · {site.location}</p>
+      <p>
+        I'm a full stack software engineer at Exairon and a computer engineering student at Marmara
+        University. I mostly work on backend services and web applications, and I make small games in
+        Unity in my spare time.
+      </p>
+      <p>
+        Outside of work I dance with the university dance society and enjoy hiking, skiing and
+        kitesurfing.
+      </p>
+      <p class="links">
+        <a href={site.links.github}>GitHub</a>
+        <a href={site.links.linkedin}>LinkedIn</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </p>
     </section>
 
-    <Window title="about.json" class="json-window">
-      <pre class="json"><code><span class="p">{'{'}</span>
-{about.map(([key, value], i) => (
-  <>  <span class="k">"{key}"</span><span class="p">: </span>{Array.isArray(value) ? (
-    <><span class="p">[</span>{value.map((v, j) => (<><span class="s">"{v}"</span>{j < value.length - 1 && <span class="p">, </span>}</>))}<span class="p">]</span></>
-  ) : (<span class="s">"{value}"</span>)}{i < about.length - 1 && <span class="p">,</span>}
-</>
-))}<span class="p">{'}'}</span></code></pre>
-    </Window>
+    <section class="section">
+      <h2 class="section-title">Projects</h2>
+      <ProjectList projects={featured} />
+      <p class="more"><a href="/projects/">All projects →</a></p>
+    </section>
+
+    {
+      posts.length > 0 && (
+        <section class="section">
+          <h2 class="section-title">Writing</h2>
+          <PostList posts={posts} />
+        </section>
+      )
+    }
   </div>
-
-  {
-    posts.length > 0 && (
-      <section class="section container container-wide" aria-labelledby="writing-heading">
-        <div class="section-head">
-          <h2 id="writing-heading">writing</h2>
-          <a class="more-link" href="/blog/">all posts →</a>
-        </div>
-        <PostList posts={posts} />
-      </section>
-    )
-  }
-
-  <section class="section container container-wide" id="contact" aria-labelledby="contact-heading">
-    <div class="contact">
-      <p class="prompt">echo "hello" | mail {site.email}</p>
-      <h2 id="contact-heading">Let's build something.</h2>
-      <p class="contact-text">
-        Have a project in mind, an opportunity, or just want to say hi? My inbox is open.
-      </p>
-      <a class="button button-primary" href={`mailto:${site.email}`}>
-        <Icon name="mail" size={16} />
-        {site.email}
-      </a>
-    </div>
-  </section>
 </BaseLayout>
 
 <style>
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 3.5rem;
-    padding-top: 5rem;
-    padding-bottom: 2.5rem;
+  .intro {
+    padding-top: 2.5rem;
+  }
+
+  .intro :global(.photo) {
+    width: 6rem;
+    height: 6rem;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
   }
 
   h1 {
-    font-size: clamp(2.25rem, 6.5vw, 4rem);
-    line-height: 1.05;
-    margin: 0.75rem 0 1rem;
+    font-size: 1.75rem;
+    margin: 0 0 0.25rem;
   }
 
-  .cursor {
-    display: inline-block;
-    width: 0.55em;
-    height: 0.9em;
-    margin-left: 0.1em;
-    vertical-align: -0.05em;
-    background: var(--accent);
-    animation: blink 1.1s steps(1) infinite;
+  .intro p {
+    margin: 0 0 1rem;
   }
 
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
+  .intro .muted {
+    margin-bottom: 1.5rem;
   }
 
-  .role {
+  .links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.25rem 0.625rem;
-    margin: 0 0 1.5rem;
-    font-family: var(--font-mono);
+    gap: 0.25rem 1.25rem;
+  }
+
+  .more {
+    margin: 1rem 0 0;
     font-size: 0.9375rem;
-    color: var(--accent);
-  }
-
-  .sep {
-    color: var(--text-faint);
-  }
-
-  .lead {
-    font-size: 1.125rem;
-    color: var(--text-muted);
-    max-width: 34rem;
-    margin: 0 0 2rem;
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.625rem;
-  }
-
-  .hero :global(.portrait) {
-    width: 18.75rem;
-    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.5);
-  }
-
-  .hero :global(.portrait img) {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    object-position: 50% 35%;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
-    gap: 1.25rem;
-  }
-
-  .split {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: 2.5rem;
-    align-items: start;
-    padding-block: 3.5rem;
-  }
-
-  .split :global(.json-window) {
-    margin-top: 2.75rem;
-  }
-
-  .json {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    line-height: 1.75;
-    white-space: pre-wrap;
-    overflow-wrap: anywhere;
-  }
-
-  .json .k {
-    color: var(--accent);
-  }
-
-  .json .s {
-    color: var(--prompt);
-  }
-
-  .json .p {
-    color: var(--text-faint);
-  }
-
-  .contact {
-    padding: 3rem 2rem;
-    border: 1px dashed var(--border-strong);
-    border-radius: 12px;
-    background: var(--bg-raised);
-    text-align: center;
-  }
-
-  .contact .prompt {
-    font-size: 0.8125rem;
-    overflow-wrap: anywhere;
-  }
-
-  .contact h2 {
-    font-family: var(--font-mono);
-    font-size: clamp(1.5rem, 4vw, 2rem);
-    letter-spacing: -0.03em;
-    margin: 0.75rem 0 0.5rem;
-  }
-
-  .contact-text {
-    color: var(--text-muted);
-    margin: 0 auto 1.75rem;
-    max-width: 28rem;
-  }
-
-  @media (max-width: 52rem) {
-    .split {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-    }
-
-    .split :global(.json-window) {
-      margin-top: 0;
-    }
-  }
-
-  @media (max-width: 48rem) {
-    .hero {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-      padding-top: 3rem;
-    }
-
-    .hero :global(.portrait) {
-      order: -1;
-      width: 12.5rem;
-    }
   }
 </style>

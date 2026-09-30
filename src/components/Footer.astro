@@ -1,62 +1,39 @@
 ---
-import Icon from './Icon.astro';
 import { site } from '../data/site';
 
 const year = new Date().getFullYear();
 ---
 
-<footer class="footer">
-  <div class="container container-wide inner">
-    <p><span class="accent">©</span> {year} {site.name} · built with Astro</p>
-    <ul aria-label="Elsewhere">
-      <li><a href={site.links.github} aria-label="GitHub"><Icon name="github" /></a></li>
-      <li><a href={site.links.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a></li>
-      <li><a href={`mailto:${site.email}`} aria-label="Email"><Icon name="mail" /></a></li>
-      <li><a href="/rss.xml" aria-label="RSS feed"><Icon name="rss" /></a></li>
-    </ul>
+<footer class="container">
+  <div class="footer">
+    <span>© {year} {site.name}</span>
+    <span class="links">
+      <a href={site.links.github}>GitHub</a>
+      <a href={site.links.linkedin}>LinkedIn</a>
+      <a href={`mailto:${site.email}`}>Email</a>
+    </span>
   </div>
 </footer>
 
 <style>
   .footer {
-    margin-top: 5rem;
-    border-top: 1px solid var(--border);
-    background: var(--bg);
-  }
-
-  .inner {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
     justify-content: space-between;
-    gap: 1rem;
-    padding-block: 1.5rem;
-  }
-
-  p {
-    margin: 0;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
+    gap: 0.5rem 1rem;
+    margin-top: 5rem;
+    padding-block: 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.875rem;
     color: var(--text-faint);
   }
 
-  .accent {
-    color: var(--accent);
-  }
-
-  ul {
+  .links {
     display: flex;
-    gap: 0.25rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+    gap: 1rem;
   }
 
   a {
-    display: grid;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 6px;
     color: var(--text-muted);
   }
 </style>

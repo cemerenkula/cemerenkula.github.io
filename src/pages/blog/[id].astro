@@ -2,7 +2,6 @@
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import Icon from '../../components/Icon.astro';
 import { getPosts } from '../../lib/content';
 
 export async function getStaticPaths() {
@@ -11,44 +10,22 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { title, description, date, updated, tags } = post.data;
+const { title, description, date, updated } = post.data;
 const { Content } = await render(post);
 ---
 
 <BaseLayout title={title} description={description} type="article">
-  <article>
-    <header class="head">
-      <div class="container">
-      <a class="back" href="/blog/"><Icon name="arrow-left" size={15} /> cd ..</a>
-      <p class="eyebrow">
+  <article class="container">
+    <header class="page-head">
+      <a class="back" href="/blog/">← Blog</a>
+      <h1>{title}</h1>
+      <p class="meta">
         <FormattedDate date={date} />
         {updated && <> · Updated <FormattedDate date={updated} /></>}
       </p>
-      <h1>{title}</h1>
-      {
-        tags.length > 0 && (
-          <ul class="tags">
-            {tags.map((tag) => <li class="tag">{tag}</li>)}
-          </ul>
-        )
-      }
-      </div>
     </header>
-    <div class="container prose">
+    <div class="prose">
       <Content />
     </div>
   </article>
 </BaseLayout>
-
-<style>
-  .head {
-    padding-block: 2.5rem 2rem;
-    margin-bottom: 2.5rem;
-    border-bottom: 1px dashed var(--border-strong);
-  }
-
-  h1 {
-    font-size: clamp(2rem, 5vw, 2.625rem);
-    margin: 0.5rem 0 1rem;
-  }
-</style>

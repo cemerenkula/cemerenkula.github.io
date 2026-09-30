@@ -45,7 +45,8 @@ const ogImageUrl = new URL(ogImage.src, Astro.site);
     <meta property="og:image" content={ogImageUrl} />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <meta name="theme-color" content="#0a0e14" />
+    <meta name="theme-color" content="#fcfcfb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)" />
 
     <script is:inline>
       (() => {
@@ -53,7 +54,9 @@ const ogImageUrl = new URL(ogImage.src, Astro.site);
         try {
           theme = localStorage.getItem('theme');
         } catch {}
-        if (theme !== 'light' && theme !== 'dark') theme = 'dark';
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
         document.documentElement.dataset.theme = theme;
       })();
     </script>
