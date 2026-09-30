@@ -10,34 +10,52 @@ import profile from '../assets/profile.jpg';
 
 const featured = await getFeaturedProjects();
 const posts = (await getPosts()).slice(0, 3);
+
+const focus = [
+  { title: 'Software', text: 'REST APIs, databases and full stack web apps, mostly with .NET and PostgreSQL.' },
+  { title: 'Games', text: 'Unity games with responsive UI, gameplay systems and 2D physics.' },
+  { title: 'AI & Data', text: 'Game-playing agents, search algorithms and heuristics, and benchmarking them.' },
+];
 ---
 
 <BaseLayout>
-  <section class="hero container container-wide">
-    <div class="hero-text">
-      <p class="eyebrow">{site.role} · {site.location}</p>
-      <h1>Hi, I'm Cem. I build software, games and the occasional&nbsp;AI.</h1>
-      <p class="lead">
-        I'm a computer engineering student at Marmara University and a full stack software engineer at
-        Exairon. Outside of work I make games in Unity and experiment with game AI.
-      </p>
-      <div class="actions">
-        <a class="button button-primary" href="/projects/">
-          See my work <Icon name="arrow-right" size={16} />
-        </a>
-        <a class="button" href={site.links.github}><Icon name="github" size={16} /> GitHub</a>
-        <a class="button" href={site.links.linkedin}><Icon name="linkedin" size={16} /> LinkedIn</a>
+  <section class="band hero-band">
+    <div class="hero container container-wide">
+      <div class="hero-text">
+        <p class="pill">{site.role} · {site.location}</p>
+        <h1>Hi, I'm Cem. I build software, games and the occasional&nbsp;AI.</h1>
+        <p class="lead">
+          I'm a computer engineering student at Marmara University and a full stack software engineer at
+          Exairon. Outside of work I make games in Unity and experiment with game AI.
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href="/projects/">
+            See my work <Icon name="arrow-right" size={16} />
+          </a>
+          <a class="button" href={site.links.github}><Icon name="github" size={16} /> GitHub</a>
+          <a class="button" href={site.links.linkedin}><Icon name="linkedin" size={16} /> LinkedIn</a>
+        </div>
       </div>
-    </div>
-    <div class="portrait">
-      <Image
-        src={profile}
-        alt="Cem Eren Kula"
-        widths={[320, 480, 640]}
-        sizes="(max-width: 48rem) 240px, 320px"
-        loading="eager"
-        fetchpriority="high"
-      />
+      <div class="portrait">
+        <Image
+          src={profile}
+          alt="Cem Eren Kula"
+          widths={[320, 480, 640]}
+          sizes="(max-width: 48rem) 240px, 320px"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <ul class="focus" aria-label="What I work on">
+        {
+          focus.map((f) => (
+            <li>
+              <h2>{f.title}</h2>
+              <p>{f.text}</p>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
@@ -51,70 +69,84 @@ const posts = (await getPosts()).slice(0, 3);
     </div>
   </section>
 
-  {
-    posts.length > 0 && (
-      <section class="section container container-wide writing" aria-labelledby="writing-heading">
-        <div class="section-head">
-          <h2 id="writing-heading">Writing</h2>
-          <a class="more-link" href="/blog/">All posts →</a>
-        </div>
-        <div class="narrow"><PostList posts={posts} /></div>
-      </section>
-    )
-  }
+  <div class="container container-wide stack">
+    {
+      posts.length > 0 && (
+        <section class="panel" aria-labelledby="writing-heading">
+          <div class="section-head">
+            <h2 id="writing-heading">Writing</h2>
+            <a class="more-link" href="/blog/">All posts →</a>
+          </div>
+          <PostList posts={posts} />
+        </section>
+      )
+    }
 
-  <section class="section container container-wide" aria-labelledby="about-heading">
-    <div class="section-head">
-      <h2 id="about-heading">About</h2>
-    </div>
-    <div class="prose narrow">
-      <p>
-        I work across the stack: REST APIs and databases on the backend, web interfaces on the front,
-        plus testing and simulation work along the way. Game development started as a side interest
-        and turned into a real one; I'm building my way through Unity one project at a time.
-      </p>
-      <p>
-        Away from the keyboard I dance with the Marmara University dance society and spend as much time
-        outdoors as I can: hiking, skiing and kitesurfing.
-      </p>
-    </div>
-  </section>
+    <section class="panel" aria-labelledby="about-heading">
+      <div class="section-head">
+        <h2 id="about-heading">About</h2>
+      </div>
+      <div class="prose narrow">
+        <p>
+          I work across the stack: REST APIs and databases on the backend, web interfaces on the front,
+          plus testing and simulation work along the way. Game development started as a side interest
+          and turned into a real one; I'm building my way through Unity one project at a time.
+        </p>
+        <p>
+          Away from the keyboard I dance with the Marmara University dance society and spend as much time
+          outdoors as I can: hiking, skiing and kitesurfing.
+        </p>
+      </div>
+    </section>
 
-  <section class="section container container-wide" id="contact" aria-labelledby="contact-heading">
-    <div class="contact">
+    <section class="contact band" id="contact" aria-labelledby="contact-heading">
       <h2 id="contact-heading">Let's talk</h2>
-      <p>
-        Have a project in mind, an opportunity, or just want to say hi? My inbox is open.
-      </p>
+      <p>Have a project in mind, an opportunity, or just want to say hi? My inbox is open.</p>
       <a class="button button-primary" href={`mailto:${site.email}`}>
         <Icon name="mail" size={16} />
         {site.email}
       </a>
-    </div>
-  </section>
+    </section>
+  </div>
 </BaseLayout>
 
 <style>
+  .hero-band {
+    padding-block: 4rem 3rem;
+  }
+
   .hero {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 3rem;
-    padding-top: 4.5rem;
-    padding-bottom: 2rem;
+    column-gap: 3.5rem;
+    row-gap: 2.5rem;
+  }
+
+  .pill {
+    display: inline-block;
+    margin: 0;
+    padding: 0.375rem 0.875rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 999px;
+    background: var(--glass);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   h1 {
     font-size: clamp(2.125rem, 5.5vw, 3.25rem);
     line-height: 1.08;
     letter-spacing: -0.035em;
-    margin: 0.75rem 0 1.25rem;
+    margin: 1.25rem 0 1.25rem;
     max-width: 16ch;
   }
 
   .lead {
     font-size: 1.1875rem;
-    color: var(--text-muted);
+    color: var(--band-muted);
     max-width: 34rem;
     margin: 0 0 2rem;
   }
@@ -126,34 +158,51 @@ const posts = (await getPosts()).slice(0, 3);
   }
 
   .portrait {
-    position: relative;
     width: 18rem;
-  }
-
-  .portrait::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    translate: 0.875rem 0.875rem;
-    border-radius: 24px;
-    background: var(--accent-bright);
+    padding: 0.5rem;
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    background: var(--glass);
+    box-shadow: 0 24px 48px -16px rgb(0 0 0 / 0.45);
   }
 
   .portrait img {
-    position: relative;
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
     object-position: 50% 30%;
-    border-radius: 24px;
+    border-radius: 20px;
   }
 
-  .narrow {
-    max-width: var(--width);
+  .focus {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
-  .writing .section-head {
-    max-width: var(--width);
+  .focus li {
+    padding: 1.125rem 1.25rem;
+    border: 1px solid rgb(255 255 255 / 0.18);
+    border-radius: var(--radius);
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .focus h2 {
+    font-size: 1rem;
+    margin: 0 0 0.375rem;
+  }
+
+  .focus p {
+    margin: 0;
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--band-muted);
   }
 
   .grid {
@@ -162,13 +211,18 @@ const posts = (await getPosts()).slice(0, 3);
     gap: 1.25rem;
   }
 
+  .stack {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .narrow {
+    max-width: var(--width);
+  }
+
   .contact {
-    padding: 2.5rem 2rem;
-    border: 1px solid var(--border);
+    padding: 3rem 2rem;
     border-radius: 20px;
-    background:
-      radial-gradient(ellipse at top right, var(--accent-soft), transparent 60%),
-      var(--bg-raised);
     text-align: center;
   }
 
@@ -178,7 +232,7 @@ const posts = (await getPosts()).slice(0, 3);
   }
 
   .contact p {
-    color: var(--text-muted);
+    color: var(--band-muted);
     margin: 0 auto 1.5rem;
     max-width: 28rem;
   }
@@ -186,22 +240,24 @@ const posts = (await getPosts()).slice(0, 3);
   @media (max-width: 48rem) {
     .hero {
       grid-template-columns: 1fr;
-      gap: 2.5rem;
+    }
+
+    .hero-band {
       padding-top: 2.5rem;
     }
 
     .portrait {
       order: -1;
       width: 11rem;
-    }
-
-    .portrait::before {
-      translate: 0.5rem 0.5rem;
-      border-radius: 18px;
+      border-radius: 22px;
     }
 
     .portrait img {
-      border-radius: 18px;
+      border-radius: 16px;
+    }
+
+    .focus {
+      grid-template-columns: 1fr;
     }
   }
 </style>

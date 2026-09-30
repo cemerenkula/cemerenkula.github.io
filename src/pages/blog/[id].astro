@@ -16,8 +16,9 @@ const { Content } = await render(post);
 ---
 
 <BaseLayout title={title} description={description} type="article">
-  <article class="container">
-    <header class="head">
+  <article>
+    <header class="band head">
+      <div class="container">
       <a class="back" href="/blog/"><Icon name="arrow-left" size={15} /> All posts</a>
       <p class="eyebrow">
         <FormattedDate date={date} />
@@ -31,19 +32,20 @@ const { Content } = await render(post);
           </ul>
         )
       }
+      </div>
     </header>
-    <div class="prose">
-      <Content />
+    <div class="container">
+      <div class="panel prose">
+        <Content />
+      </div>
     </div>
   </article>
 </BaseLayout>
 
 <style>
   .head {
-    padding-top: 2.5rem;
-    padding-bottom: 2rem;
+    padding-block: 2.5rem 3rem;
     margin-bottom: 2.5rem;
-    border-bottom: 1px solid var(--border);
   }
 
   .back {
@@ -52,7 +54,7 @@ const { Content } = await render(post);
     gap: 0.375rem;
     margin-bottom: 2rem;
     font-size: 0.875rem;
-    color: var(--text-muted);
+    color: var(--band-muted);
     text-decoration: none;
   }
 
